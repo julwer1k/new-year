@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	$egor: "https://i.gstatvb.com/764e2d2830519c53dacaaf346c187cc61734643057.rng.webp";
+	$vodka: "https://i.gstatvb.com/a90d63f2d0d169f7fb35095a1efeed511734644666.rng.webp";
+	$buterbrod: "https://i.gstatvb.com/c180e73aebc6cc4dbe9f0709c9e1bf571734643160.rng.webp";
+	$sonic: "https://i.gstatvb.com/23bbe99a822eac22616e45fa456b95701734648398.rng.webp";
+	$tea: "https://i.gstatvb.com/abe2ca554992baf11541e0a14a6b6edc1734648689.rng.webp";
+	$lawyer: "https://i.gstatvb.com/e585302d4c8d047eeec225a2cf5338fa1734648610.rng.webp";
+	$calvin-kleine: "https://i.gstatvb.com/2d9604b106f745192c927ba59f1314ac1734648531.rng.webp";
+	$vodafone: "https://i.gstatvb.com/d109016fbc42cc714600eff185bbf2781734648193.rng.webp";
+	$masha: "https://i.gstatvb.com/685a1049f1ccb785e3b34b1281a230251734649312.rng.webp";
+	$tiktok: "https://i.gstatvb.com/1fc82305921e66ddc36f9ec77b3530381734649335.rng.webp";
+	$nalivki: "https://i.gstatvb.com/2a432bbdd9584984c74a25d8949e20841734649396.rng.webp";
+	$fist: "https://i.gstatvb.com/81945382f5bbba8b6c3a38051831ebb41734649733.rng.webp";
+	$camry: "https://i.gstatvb.com/64d83acc93ea9aef9a8c382a6f0cdb6c1734649893.rng.webp";
+	$nuts: "https://i.gstatvb.com/b99f20d42e7510b8cfad91e41370a3b91734649806.rng.webp";
+	$test: "https://i.gstatvb.com/00c9304c2dfcf67cc4bb9ac59a4c31de1734650166.rng.webp";
+	$fish: "https://i.gstatvb.com/11681a746bd13fd3337d56f3e111cbdb1734650157.rng.webp";
+	$meet: "https://i.gstatvb.com/531ec2ffd6ae09e28d5af286c02dfb1e1734650509.rng.webp";
+	$puri: "https://i.gstatvb.com/41c3583d5723d1600e3295347b2396661734650655.rng.webp";
+	$sixteen: "https://i.gstatvb.com/a440f2ca811c21dc70fc8dca79a7e4451734650501.rng.webp";
+	$rio: "https://i.gstatvb.com/7b1a74eb1b0c916bbefe774e1de6eaaa1734651285.rng.webp";
+	$red-stone: "https://i.gstatvb.com/d5568bbbfa90473c6ff31f31202020cd1734651403.rng.webp";
+	$dance: "https://i.gstatvb.com/3848ed53c83ab9a27e8c81ab70c8fb621734651043.rng.webp";
+
+	.egor,
+	.vodka,
+	.buterbrod,
+	.sonic,
+	.calvin,
+	.lawyer,
+	.tea,
+	.vodafone,
+	.masha,
+	.tiktok,
+	.nalivki,
+	.camry,
+	.nuts,
+	.fist,
+	.fish,
+	.test,
+	.meet,
+	.sixteen,
+	.puri,
+	.dance,
+	.red-stone,
+	.rio {
+		background-repeat: no-repeat;
+		background-position: center;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		min-width: 500px;
+		min-height: 500px;
+	}
+
+	.egor {
+		background-image: url($egor);
+	}
+	.buterbrod {
+		background-image: url($buterbrod);
+	}
+	.vodka {
+		background-image: url($vodka);
+	}
+	.sonic {
+		background-image: url($sonic);
+	}
+	.calvin {
+		background-image: url($calvin-kleine);
+	}
+	.lawyer {
+		background-image: url($lawyer);
+	}
+	.tea {
+		background-image: url($tea);
+	}
+	.vodafone {
+		background-image: url($vodafone);
+	}
+	.masha {
+		background-image: url($masha);
+	}
+	.nalivki {
+		background-image: url($nalivki);
+	}
+	.tiktok {
+		background-image: url($tiktok);
+	}
+	.fist {
+		background-image: url($fist);
+	}
+	.camry {
+		background-image: url($camry);
+	}
+	.nuts {
+		background-image: url($nuts);
+	}
+	.fish {
+		background-image: url($fish);
+	}
+	.test {
+		background-image: url($test);
+	}
+	.meet {
+		background-image: url($meet);
+	}
+	.sixteen {
+		background-image: url($sixteen);
+	}
+	.puri {
+		background-image: url($puri);
+	}
+	.rio {
+		background-image: url($rio);
+	}
+	.dance {
+		background-image: url($dance);
+	}
+	.red-stone {
+		background-image: url($red-stone);
+	}
+
+	.scale {
+		&:hover {
+			transform: scale(1.22);
+			transition: all 0.3s ease-in-out;
+		}
+	}
+
+	.show-image {
+		animation: showImage 3s;
+	}
+
+	.swing {
+		animation: swing infinite 1.2s;
+	}
+
+	@keyframes swing {
+		10% {
+			transform: rotate(15deg);
+		}
+
+		20% {
+			transform: rotate(-10deg);
+		}
+
+		30% {
+			transform: rotate(5deg);
+		}
+
+		40% {
+			transform: rotate(-5deg);
+		}
+
+		50% {
+			transform: rotate(0deg);
+		}
+
+		50%, 100% {
+			transform: none;
+		}
+	}
+
+	@keyframes showImage {
+		0% {
+			opacity: 0;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+}
