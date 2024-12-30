@@ -25,6 +25,13 @@
 	$rio: "https://i.gstatvb.com/7b1a74eb1b0c916bbefe774e1de6eaaa1734651285.rng.webp";
 	$red-stone: "https://i.gstatvb.com/d5568bbbfa90473c6ff31f31202020cd1734651403.rng.webp";
 	$dance: "https://i.gstatvb.com/3848ed53c83ab9a27e8c81ab70c8fb621734651043.rng.webp";
+	$england: "https://i.gstatvb.com/d17958c99022ec5a82a7cf671d841eb01735128845.rng.webp";
+	$school: "https://i.gstatvb.com/e585babd47fae2cdc3b792c307e4eb251735128938.rng.webp";
+	$pasha: "https://i.gstatvb.com/8feb457d8c682cb7a7a429a8a6c412b61735128878.rng.webp";
+	$snake: "https://i.gstatvb.com/ffc13f2b0c2cdc272b47f2e6d1c9f1dd1735131650.rng.png";
+	$play: "https://i.gstatvb.com/6730a9d32aecda60b541281a51d3d2541735132481.rng.png";
+	$stop: "https://i.gstatvb.com/c06d9451aa72a1a9f689634f8e8f35ed1735132496.rng.png";
+	$cross: "https://i.gstatvb.com/5bf1902c54168d58910ab60e76f721291735586720.rng.png";
 
 	.egor,
 	.vodka,
@@ -47,7 +54,10 @@
 	.puri,
 	.dance,
 	.red-stone,
-	.rio {
+	.rio,
+	.pasha,
+	.england,
+	.school {
 		background-repeat: no-repeat;
 		background-position: center;
 		width: 100%;
@@ -123,6 +133,15 @@
 	.red-stone {
 		background-image: url($red-stone);
 	}
+	.pasha {
+		background-image: url($pasha);
+	}
+	.school {
+		background-image: url($school);
+	}
+	.england {
+		background-image: url($england);
+	}
 
 	.scale {
 		&:hover {
@@ -138,6 +157,76 @@
 	.swing {
 		animation: swing infinite 1.2s;
 	}
+
+	.snake,
+	.stop,
+	.play {
+		display: block;
+		background-repeat: no-repeat;
+		background-position: center;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.snake {
+		background-image: url($snake);
+	}
+
+	.play {
+		background-image: url($play);
+		border: none;
+	}
+
+	.button {
+		transition: all 0.3s;
+
+
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+
+	.block-audio {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.stop {
+		background-image: url($stop);
+	}
+
+	.line {
+		&:after {
+			content: "";
+			transform-origin: 0;
+			border-radius: 4px;
+			background: white;
+			width: 100%;
+			height: 3px;
+			margin-top: 5px;
+			transition: all 0.3s;
+			display: block;
+			position: absolute;
+			transform: scale(0);
+		}
+
+		&:hover:after {
+			transform: scale(1);
+		}
+	}
+
+	.cross {
+		background-image: url($cross);
+		display: block;
+		background-repeat: no-repeat;
+		background-position: center;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
 
 	@keyframes swing {
 		10% {

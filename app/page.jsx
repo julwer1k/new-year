@@ -2,10 +2,11 @@
 
 import classNames from 'classnames';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
+import { Snowfall } from 'react-snowfall';
 
 export default function Home() {
 	const router = useRouter();
@@ -58,7 +59,7 @@ export default function Home() {
 		{
 			id: 0,
 			name: 'Egor',
-			path: '/egor',
+			path: 'congratulation/0',
 			image: '/assets/photo/egor.webp',
 			associations: [
 				{
@@ -80,7 +81,7 @@ export default function Home() {
 		{
 			id: 1,
 			name: 'Illya',
-			path: '/egor',
+			path: 'congratulation/1',
 			image: '/assets/photo/ilya.webp',
 			associations: [
 				{
@@ -102,7 +103,7 @@ export default function Home() {
 		{
 			id: 2,
 			name: 'Kirill',
-			path: '/egor',
+			path: 'congratulation/2',
 			image: '/assets/photo/kirill.webp',
 			associations: [
 				{
@@ -124,7 +125,7 @@ export default function Home() {
 		{
 			id: 3,
 			name: 'Liza',
-			path: '/egor',
+			path: 'congratulation/3',
 			image: '/assets/photo/liza.webp',
 			associations: [
 				{
@@ -146,7 +147,7 @@ export default function Home() {
 		{
 			id: 4,
 			name: 'Masha',
-			path: '/egor',
+			path: 'congratulation/4',
 			image: '/assets/photo/masha.webp',
 			associations: [
 				{
@@ -168,7 +169,7 @@ export default function Home() {
 		{
 			id: 5,
 			name: 'Sasha',
-			path: '/egor',
+			path: 'congratulation/5',
 			image: '/assets/photo/sasha.webp',
 			associations: [
 				{
@@ -190,7 +191,7 @@ export default function Home() {
 		{
 			id: 6,
 			name: 'Alyona',
-			path: '/egor',
+			path: 'congratulation/6',
 			image: '/assets/photo/alyona.webp',
 			associations: [
 				{
@@ -212,7 +213,7 @@ export default function Home() {
 		{
 			id: 7,
 			name: 'Ignat',
-			path: '/egor',
+			path: 'congratulation/7',
 			image: '/assets/photo/ignat.webp',
 			associations: [
 				{
@@ -231,23 +232,47 @@ export default function Home() {
 			isOpen: false,
 			isClick: false,
 		},
+		{
+			id: 8,
+			name: 'Pasha',
+			path: 'congratulation/8',
+			image: '/assets/photo/pasha.webp',
+			associations: [
+				{
+					id: 0,
+					name: 'school',
+				},
+				{
+					id: 1,
+					name: 'england',
+				},
+				{
+					id: 2,
+					name: 'pasha',
+				},
+			],
+			isOpen: false,
+			isClick: false,
+		},
 	];
 
 	const [friends, setFriends] = useState(
-		JSON.parse(sessionStorage.getItem('friends')) || initialFriends
+		JSON.parse(sessionStorage.getItem('friends')) || initialFriends,
 	);
 	const [isShowContent, setIsShowContent] = useState(
-		JSON.parse(sessionStorage.getItem('isShowContent')) || false
+		JSON.parse(sessionStorage.getItem('isShowContent')) || false,
 	);
 	const [closeHeroPage, setCloseHeroPage] = useState(
-		JSON.parse(sessionStorage.getItem('closeHeroPage')) || false
+		JSON.parse(sessionStorage.getItem('closeHeroPage')) || false,
 	);
 	const [isRenderList, setIsRenderList] = useState(
-		JSON.parse(sessionStorage.getItem('isRenderList')) || false
+		JSON.parse(sessionStorage.getItem('isRenderList')) || false,
 	);
 
 	const hasClickedFriend = friends.some(friend => friend.isClick);
 	const [triggerShuffle, setTriggerShuffle] = useState(false);
+	const [isPlaying, setIsPlaying] = useState(false);
+	const audioRef = useRef(null);
 
 	useEffect(() => {
 		// Check if any friend has been clicked when the component mounts or when pathname changes
@@ -276,7 +301,7 @@ export default function Home() {
 					acc[friend.isClick ? 0 : 1].push(friend);
 					return acc;
 				},
-				[[], []]
+				[[], []],
 			);
 
 			for (let i = notClickedFriends.length - 1; i > 0; i--) {
@@ -289,7 +314,7 @@ export default function Home() {
 	};
 
 	useEffect(() => {
-		sessionStorage.setItem("friends", JSON.stringify(friends));
+		sessionStorage.setItem('friends', JSON.stringify(friends));
 	}, [friends]);
 
 	useEffect(() => {
@@ -319,8 +344,8 @@ export default function Home() {
 			prevFriends.map(friend =>
 				friend.id === id
 					? { ...friend, isClick: true }
-					: friend
-			)
+					: friend,
+			),
 		);
 
 		router.push(path);
@@ -331,183 +356,211 @@ export default function Home() {
 			prevFriends.map(friend =>
 				friend.id === id
 					? { ...friend, isOpen: true }
-					: friend
-			)
+					: friend,
+			),
 		);
+	};
+
+	const togglePlay = () => {
+		if (audioRef.current) {
+			if (isPlaying) {
+				audioRef.current.pause();
+			} else {
+				audioRef.current.play();
+			}
+			setIsPlaying(!isPlaying);
+		}
 	};
 
 	return (
 		<div>
-			{!closeHeroPage && (<>
-					<section
-						className={classNames({
-							"h-[calc(100vh+104px)] xl:h-[calc(100vh+140px)]": isShowContent,
-							"h-[calc(100vh-104px)] xl:h-[calc(100vh-140px)]": !isShowContent
-						}, " relative")}
-					>
-						<div className="rope mb-4 xl:mb-12">
-							{balls.map((b) => (
-								<a
-									key={b.id}
-									className={`${b.classNames} absolute cursor-pointer`}
-								>
-									<Image
-										src={b.src}
-										alt=""
-										width={65}
-										height={91}
-										className="w-[32px] h-[45px] xl:w-[65px] xl:h-[91px]"
-									/>
-									<span
-										className={`${b.blurClassName} absolute w-[10px] h-[10px] xl:w-[60px] xl:h-[60px] blur-[15px] left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2`}
-									/>
-								</a>
-							))}
-						</div>
+			<Snowfall
+				color="#fff"
+				style={{
+					position: 'fixed',
+					width: '100vw',
+					height: '100vh',
+				}}
+				snowflakeCount={500}
+				speed={[2, 5]}
+				wind={[0.5, 2]}
+			/>
+			<div>
+				{!closeHeroPage && (<>
+						<section
+							className={classNames({
+								'h-[calc(100vh+104px)] xl:h-[calc(100vh+140px)]': isShowContent,
+								'h-[calc(100vh-104px)] xl:h-[calc(100vh-140px)]': !isShowContent,
+							}, ' relative')}
+						>
+							<div className="rope mb-4 xl:mb-12">
+								{balls.map((b) => (
+									<a
+										key={b.id}
+										className={`${b.classNames} absolute cursor-pointer`}
+									>
+										<Image
+											src={b.src}
+											alt=""
+											width={65}
+											height={91}
+											className="w-[32px] h-[45px] xl:w-[65px] xl:h-[91px]"
+										/>
+										<span
+											className={`${b.blurClassName} absolute w-[10px] h-[10px] xl:w-[60px] xl:h-[60px] blur-[15px] left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2`}
+										/>
+									</a>
+								))}
+							</div>
 
-						<div className="container mx-auto">
-							<div className="flex xl:pt-20 xl:pb-24 justify-center flex-col items-center">
-								<div className="text-center">
-									<h1 className="h1 mb-4 xl:mb-6">Happy New Year!</h1>
-
-									<p className="max-w-[500px] text-xl xl:text-4xl mx-auto mb-3 xl:mb-9 text-white/80">
-										I excel at crafting elegant digital experiences and I am
-										proficient in various programming languages and technologies.
-									</p>
-
-									<p>
-										For the best experience, open the game in prototype mode and play in fit-to-screen
-										mode.
-									</p>
+							<div className="container mx-auto">
+								<div className="flex xl:pt-20 xl:pb-24 justify-center flex-col items-center">
+									<div className="text-center">
+										<h1 className="h1 mb-4 xl:mb-6">Happy New Year!</h1>
+									</div>
 								</div>
+							</div>
+
+							<a
+								href={'#table'}
+								className={classNames({
+									'hidden': isShowContent
+								}, "flex justify-center absolute text-[16px] p-2 bg-transparent shadow-[0_8px_6px_-2px_rgba(0,0,0,0.6)] w-full max-w-[120px] bottom-[50%] sm:bottom-[30px]  left-1/2 transform -translate-x-1/2 border-2 rounded-xl hover:bg-white hover:shadow-[0_4px_8px_0px_rgba(0,0,0,0.6)] hover:text-primary transition-all duration-500")}
+								onClick={(e) => handleSwipeToTable(e)}
+							>
+								Continue ᨆ
+							</a>
+						</section>
+
+						<div className="absolute right-0 bottom-0">
+							<Image
+								src="/assets/clause.png"
+								alt=""
+								width={618}
+								height={894}
+								className="w-[220px] h-[320px] sm:w-[350px] sm:h-[420px] md:w-[420px] md:h-[520px] lg:w-[500px] lg:h-[700px] xl:h-[894px] xl:w-[618px]"
+							/>
+						</div>
+						<div className="absolute left-0 bottom-0">
+							<Image
+								src="/assets/present-1.png"
+								alt=""
+								width={534}
+								height={304}
+								className="w-[100px] h-[100px] sm:w-[180px] sm:h-[180px] md:w-[220px] md:h-[220px] lg:w-[304px] lg:h-[350px] xl:h-[304px] xl:w-[400px]"
+							/>
+						</div>
+						<div className="absolute left-[5%] bottom-[20%] xl:bottom-[40%]">
+							<Image
+								src="/assets/present-2.png"
+								alt=""
+								width={90}
+								height={92}
+								className="w-[90px] h-[90px] xl:h-[120px] xl:w-[120px]"
+							/>
+						</div>
+					</>
+				)}
+
+				{isShowContent && (
+					<section
+						className="h-[calc(100vh-104px)] xl:h-[calc(100vh-140px)]"
+					>
+						<div className="flex text-center justify-center pt-8 pb-8">
+							<div
+								className="w-full flex justify-center items-center flex-wrap max-w-[650px] sm:max-w-[1200px] xl:max-w-[1400px] xxl:max-w-[1500px] gap-4"
+								id="table"
+							>
+
+								{isRenderList && friends && friends.map(friend => {
+									return (
+										<div
+											className={classNames(
+												{},
+												'flex flex-col gap-4 justify-center items-center w-[250px] sm:w-[300px] xl:w-[400px] border-[#0f9] p-4 bg-[rgba(37,228,171,0.35)] rounded-xl h-auto border-2 z-[0] relative',
+											)}
+											key={friend.id}
+										>
+											{friend.isOpen && <h2 className="text-4xl">{friend.name}</h2>}
+
+											<div>
+												{!friend.isOpen && <Image
+													src="/assets/photo/question.png"
+													width={534}
+													height={304}
+													alt=""
+													className="object-cover rounded-xl w-[250px] h-[300px] xl:w-[534px] relative z-[1]"
+												/>}
+
+												{friend.isOpen && <Image
+													src={friend.image}
+													alt=""
+													width={534}
+													height={304}
+													className={classNames({
+														'relative': friend.isOpen,
+														'absolute z-[-1] top-4 left-4': !friend.isOpen,
+														'show-image': friend.isOpen,
+													}, 'max-w-[212px] object-cover rounded-xl w-[250px] h-[250px] xl:w-[534px]')}
+												/>}
+
+											</div>
+
+											<div>
+												<p className="mx-auto mb-2 text-4xl border-b border-white w-max text-center">Association</p>
+
+												<div className="flex gap-2 sm:gap-4">
+													{friend.associations.map(association => {
+														return (
+															<div
+																key={association.id}
+																className="w-[70px] h-[70px] bg-white/85 rounded-xl p-2 flex items-center justify-center overflow-hidden cursor-pointer scale"
+															>
+																<span className={`${association.name} scale-[0.2]`}></span>
+															</div>
+														);
+													})}
+												</div>
+											</div>
+
+											{!friend.isOpen && <button
+												className="pt-2 pb-2 pl-6 pr-6 text-center flex justify-center items-center rounded-xl bg-red-500/75 swing"
+												onClick={() => showCard(friend.id)}
+											>
+												Show
+											</button>}
+
+											{friend.isOpen &&
+												<Link
+													href={friend.path}
+													className="pt-2 pb-2 pl-6 pr-6 text-center flex justify-center items-center rounded-xl bg-red-500/75 swing"
+													onClick={() => navigateToFriend(friend.path, friend.id)}
+												>
+													Continue
+												</Link>}
+										</div>
+									);
+								})}
 							</div>
 						</div>
 					</section>
+				)}
 
-					<div className="absolute right-0 bottom-0">
-						<Image
-							src="/assets/clause.png"
-							alt=""
-							width={618}
-							height={894}
-							className="w-[120px] h-[200px] xl:h-[894px] xl:w-[618px]"
-						/>
-					</div>
-					<div className="absolute left-0 bottom-0">
-						<Image
-							src="/assets/present-1.png"
-							alt=""
-							width={534}
-							height={304}
-							className="w-[100px] h-[100px] xl:h-[304px] xl:w-[534px]"
-						/>
-					</div>
-					<div className="absolute left-[5%] bottom-[20%] xl:bottom-[40%]">
-						<Image
-							src="/assets/present-2.png"
-							alt=""
-							width={90}
-							height={92}
-							className="w-[90px] h-[90px] xl:h-[120px] xl:w-[120px]"
-						/>
-					</div>
-					<a
-						href={'#table'}
-						className="flex justify-center absolute text-[16px] p-2 bg-transparent shadow-[0_8px_6px_-2px_rgba(0,0,0,0.6)] w-full max-w-[120px] bottom-[20px] left-1/2 transform -translate-x-1/2 border-2 rounded-xl hover:bg-white hover:shadow-[0_4px_8px_0px_rgba(0,0,0,0.6)] hover:text-primary transition-all duration-500"
-						onClick={(e) => handleSwipeToTable(e)}
+				<div className="flex absolute left-4 top-6 justify-center flex-col items-center block-audio">
+					<audio
+						ref={audioRef}
+						src="/assets/bg-music.mp3"
+					/>
+					<button
+						onClick={togglePlay}
+						className="w-[40px] h-[40px] sm:w-[60px] sm:h-[60px] bg-white/80 rounded button"
 					>
-						Continue ᨆ
-					</a>
-				</>
-			)}
-
-			{isShowContent && (
-				<section
-					className="h-[calc(100vh-104px)] xl:h-[calc(100vh-140px)]"
-				>
-					<div className="flex text-center justify-center pt-8 pb-8">
-						<div
-							className="w-full flex justify-center items-center flex-wrap max-w-[650px] sm:max-w-[1200px] xl:max-w-[1400px] xxl:max-w-[1500px] gap-4"
-							id="table"
-						>
-
-							{isRenderList && friends && friends.map(friend => {
-								return (
-									<div
-										className={classNames({
-										}, "flex flex-col gap-4 justify-center items-center w-[250px] sm:w-[300px] xl:w-[400px] border-[#0f9] p-4 bg-[rgba(37,228,171,0.35)] rounded-xl h-auto border-2 z-[0] relative")}
-										key={friend.id}
-									>
-										{friend.isOpen && <h2 className="text-4xl">{friend.name}</h2>}
-
-										<div>
-											{!friend.isOpen && <Image
-												src="/assets/photo/question.png"
-												width={534}
-												height={304}
-												alt=""
-												className="object-cover rounded-xl w-[250px] h-[300px] xl:w-[534px] relative z-[1]"
-											/>}
-
-											{friend.isOpen && <Image
-												src={friend.image}
-												alt=""
-												width={534}
-												height={304}
-												className={classNames({
-													'relative': friend.isOpen,
-													'absolute z-[-1] top-4 left-4': !friend.isOpen,
-													'show-image': friend.isOpen
-												}, 'max-w-[212px] object-cover rounded-xl w-[250px] h-[250px] xl:w-[534px]')}
-											/>}
-
-										</div>
-
-										<div>
-											<p className="mx-auto mb-2 text-4xl border-b border-white w-max text-center">Association</p>
-
-											<div className="flex gap-2 sm:gap-4">
-												{friend.associations.map(association => {
-													return (
-														<div
-															key={association.id}
-															className="w-[70px] h-[70px] bg-white/85 rounded-xl p-2 flex items-center justify-center overflow-hidden cursor-pointer scale"
-														>
-															<span className={`${association.name} scale-[0.2]`}></span>
-														</div>
-													);
-												})}
-											</div>
-										</div>
-
-										{!friend.isOpen && <button
-											className="pt-2 pb-2 pl-6 pr-6 text-center flex justify-center items-center rounded-xl bg-red-500/75 swing"
-											onClick={() => showCard(friend.id)}
-										>
-											Show
-										</button>}
-
-										{friend.isOpen &&
-											<Link
-												href={friend.path}
-												className="pt-2 pb-2 pl-6 pr-6 text-center flex justify-center items-center rounded-xl bg-red-500/75 swing"
-												onClick={() => navigateToFriend(friend.path, friend.id)}
-											>
-												Continue
-											</Link>}
-									</div>
-								);
-							})}
-						</div>
-					</div>
-				</section>
-			)}
-
-			<audio
-				src="/assets/bg-music.mp3"
-				autoPlay
-				controls
-			/>
+						{isPlaying ? <span className="stop rounded shadow-[1px_0px_10px_2px_rgba(168,55,54,0.6)]" /> :
+							<span className="play rounded shadow-[1px_0px_10px_2px_rgba(91,217,95,0.6)]" />}
+					</button>
+					<span className="text-xl font-caveat" />
+				</div>
+			</div>
 		</div>
-	);
+	)
 }

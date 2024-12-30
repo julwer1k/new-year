@@ -22,7 +22,8 @@ module.exports = {
 		},
 		fontFamily: {
 			primary: "var(--font-jetbrainsMono)",
-			second: "var(--font-oregano)"
+			second: "var(--font-oregano)",
+			caveat: "var(--font-caveat)"
 		},
 		extend: {
 			colors: {

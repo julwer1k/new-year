@@ -1,5 +1,5 @@
 import { StairTransition } from '@/components/StairTransition';
-import {JetBrains_Mono, Oregano} from "next/font/google"
+import {JetBrains_Mono, Oregano, Caveat} from "next/font/google"
 import "./globals.css";
 import "./globals.scss";
 
@@ -11,6 +11,12 @@ const jetbrainsMono = JetBrains_Mono({
 	subsets: ["latin"],
 	weight: ['100', '200', '300', "400", "500", "600", "700", "800"],
 	variable: "--font-jetbrainsMono",
+})
+
+const caveat = Caveat({
+	subsets: ["cyrillic"],
+	weight: ["400", "500", "600", "700",],
+	variable: "--font-caveat",
 })
 
 const oregano = Oregano({
@@ -26,11 +32,14 @@ export const metadata = {
 
 export default function RootLayout({children}) {
 	return (
-		<html lang="en" className="scroll-smooth">
-		<body
-			className={`${jetbrainsMono.variable} ${oregano.variable}`}
+		<html
+			lang="en"
+			className="scroll-smooth"
 		>
-		<Header/>
+		<body
+			className={`${jetbrainsMono.variable} ${oregano.variable} ${caveat.variable}`}
+		>
+		<Header />
 		<StairTransition />
 		<PageTransition>
 			{children}
